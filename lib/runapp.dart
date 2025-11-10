@@ -6,10 +6,6 @@ class JournalApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Journal app",
-      home: Homepage(),
-    );
+    return MaterialApp(title: "Journal app", home: Homepage());
   }
 }

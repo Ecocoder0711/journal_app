@@ -1,10 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:journal_app/widgets/general_entry_card.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      backgroundColor: Colors.black87,
+      appBar: AppBar(
+        title: Text(
+          "Welcome To Daily Thoughts",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
+      ),
+      body: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return JournalEntryCard();
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Colors.black,
+        child: Icon(Icons.add, color: const Color.fromARGB(255, 208, 203, 203)),
+      ),
+    );
   }
 }
+// body: SingleChildScrollView(
+      //   child: Column(
+      //     children: [
+      //       for (int i = 0; i <= 40; i++)
+      //         Container(
+      //           height: 40,
+      //           width: 400,
+      //           color: Colors.amber,
+      //           child: Text("This is Container no $i"),
+                
+      //         ),
+      //     ],
+      //   ),
+      // ),
