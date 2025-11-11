@@ -15,12 +15,12 @@ class JournalEntryCard extends StatelessWidget {
           children: [
             Text(
               "Title: ",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 3),
             Text(
               "Content: ",
-              style: TextStyle(fontSize: 14, color: Colors.black87),
+              style: const TextStyle(fontSize: 14, color: Colors.black87),
             ),
             SizedBox(height: 3),
             Text(
