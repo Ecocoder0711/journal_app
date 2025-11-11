@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:journal_app/widgets/general_entry_card.dart';
+import 'package:journal_app/widgets/input_data_card.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -22,7 +23,18 @@ class Homepage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            ),
+            builder: (context) {
+              return InputDataCard();
+            },
+          );
+        },
         backgroundColor: Colors.black,
         child: Icon(Icons.add, color: const Color.fromARGB(255, 208, 203, 203)),
       ),

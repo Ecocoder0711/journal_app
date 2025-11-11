@@ -6,6 +6,6 @@ class JournalApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: "Journal app", home: Homepage());
+    return MaterialApp(title: "Journal app", home: const Homepage());
   }
 }
