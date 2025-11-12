@@ -9,8 +9,9 @@ class InputDataCard extends StatefulWidget {
 
 class _InputDataCardState extends State<InputDataCard> {
   // text editing controllers
-  TextEditingController _titleEditingController = TextEditingController();
-  TextEditingController _contentEditingController = TextEditingController();
+  final TextEditingController _titleEditingController = TextEditingController();
+  final TextEditingController _contentEditingController =
+      TextEditingController();
   // function to print data
   void printdata() {
     print(_titleEditingController.text);
@@ -59,19 +60,24 @@ class _InputDataCardState extends State<InputDataCard> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancel", style: TextStyle(color: Colors.red)),
+                ),
+                SizedBox(width: 15),
+                ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                   ),
-                  onPressed: printdata,
+                  onPressed: () {
+                    printdata();
+                    Navigator.pop(context);
+                  },
                   child: Text(
                     "Saved Data",
                     style: TextStyle(color: Colors.white),
                   ),
-                ),
-                SizedBox(width: 15),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text("Cancel", style: TextStyle(color: Colors.red)),
                 ),
               ],
             ),
