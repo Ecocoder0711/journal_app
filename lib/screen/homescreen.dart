@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journal_app/data/data.dart';
 import 'package:journal_app/widgets/general_entry_card.dart';
 import 'package:journal_app/widgets/input_data_card.dart';
 
@@ -17,7 +18,7 @@ class Homepage extends StatelessWidget {
         backgroundColor: Colors.black,
       ),
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: listOfEntry.length,
         itemBuilder: (context, index) {
           return JournalEntryCard();
         },
