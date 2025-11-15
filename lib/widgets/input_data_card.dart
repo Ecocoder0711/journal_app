@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:journal_app/data/data.dart';
+import 'package:journal_app/data/journal_entry_model.dart';
 
 class InputDataCard extends StatefulWidget {
-  const InputDataCard({super.key});
+  final Function(JournalEntry) onSave;
+  const InputDataCard({required this.onSave, super.key});
 
   @override
   State<InputDataCard> createState() => _InputDataCardState();
@@ -13,12 +16,12 @@ class _InputDataCardState extends State<InputDataCard> {
   final TextEditingController _contentEditingController =
       TextEditingController();
   // function to print data
-  void printdata() {
-    print(_titleEditingController.text);
-    print(_contentEditingController.text);
-    _titleEditingController.clear();
-    _contentEditingController.clear();
-  }
+  // void printdata() {
+  //   print(_titleEditingController.text);
+  //   print(_contentEditingController.text);
+  //   _titleEditingController.clear();
+  //   _contentEditingController.clear();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class _InputDataCardState extends State<InputDataCard> {
           children: [
             TextField(
               controller: _titleEditingController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black87),
                 ),
@@ -45,7 +48,7 @@ class _InputDataCardState extends State<InputDataCard> {
             const SizedBox(height: 15),
             TextField(
               controller: _contentEditingController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black87),
                 ),
@@ -63,18 +66,30 @@ class _InputDataCardState extends State<InputDataCard> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Cancel", style: TextStyle(color: Colors.red)),
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(color: Colors.red),
+                  ),
                 ),
-                SizedBox(width: 15),
+                const SizedBox(width: 15),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                   ),
                   onPressed: () {
-                    printdata();
+                    JournalEntry entry = JournalEntry(
+                      id: "${listOfEntry.length}",
+                      title: _titleEditingController.text,
+                      content: _contentEditingController.text,
+                      date: "15 Nov 2025",
+                    );
+                    widget.onSave(entry);
+                    // setState(() {
+                    //  listOfEntry.add(entry);
+                    // });
                     Navigator.pop(context);
                   },
-                  child: Text(
+                  child: const Text(
                     "Saved Data",
                     style: TextStyle(color: Colors.white),
                   ),

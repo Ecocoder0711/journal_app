@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:journal_app/data/journal_entry_model.dart';
 
 class JournalEntryCard extends StatelessWidget {
-  const JournalEntryCard({super.key});
+  final JournalEntry entry;
+  const JournalEntryCard({required this.entry, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +16,17 @@ class JournalEntryCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Title: ",
+              entry.title,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 3),
             Text(
-              "Content: ",
+              entry.content,
               style: const TextStyle(fontSize: 14, color: Colors.black87),
             ),
             SizedBox(height: 3),
             Text(
-              "10 Nov 2025",
+              entry.date,
               style: TextStyle(
                 fontSize: 14,
                 color: const Color.fromARGB(255, 120, 119, 119),

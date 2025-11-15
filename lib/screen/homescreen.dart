@@ -3,15 +3,20 @@ import 'package:journal_app/data/data.dart';
 import 'package:journal_app/widgets/general_entry_card.dart';
 import 'package:journal_app/widgets/input_data_card.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
 
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Welcome To Daily Thoughts",
           style: TextStyle(color: Colors.white),
         ),
@@ -20,7 +25,7 @@ class Homepage extends StatelessWidget {
       body: ListView.builder(
         itemCount: listOfEntry.length,
         itemBuilder: (context, index) {
-          return JournalEntryCard();
+          return JournalEntryCard(entry: listOfEntry[index]);
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -32,11 +37,17 @@ class Homepage extends StatelessWidget {
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             ),
             builder: (context) {
-              return InputDataCard();
+              return InputDataCard(
+                onSave: (entry) {
+                  setState(() {
+                    listOfEntry.add(entry);
+                  });
+                },
+              );
             },
           );
         },
-        backgroundColor: Colors.black,
+        backgroundColor: const Color.fromARGB(255, 49, 49, 49),
         child: Icon(Icons.add, color: const Color.fromARGB(255, 208, 203, 203)),
       ),
     );
