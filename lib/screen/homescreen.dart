@@ -18,7 +18,7 @@ class _HomepageState extends State<Homepage> {
       appBar: AppBar(
         title: const Text(
           "Welcome To Daily Thoughts",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
       ),
@@ -33,7 +33,7 @@ class _HomepageState extends State<Homepage> {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             ),
             builder: (context) {
@@ -48,7 +48,7 @@ class _HomepageState extends State<Homepage> {
           );
         },
         backgroundColor: const Color.fromARGB(255, 49, 49, 49),
-        child: Icon(Icons.add, color: const Color.fromARGB(255, 208, 203, 203)),
+        child: const Icon(Icons.add, color: Color.fromARGB(255, 208, 203, 203)),
       ),
     );
   }
