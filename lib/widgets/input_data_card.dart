@@ -27,12 +27,16 @@ class _InputDataCardState extends State<InputDataCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(3.0),
       child: Container(
-        padding: const EdgeInsets.all(20),
-        height: 800,
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 239, 236, 236),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: const EdgeInsets.all(25),
+        height: 730,
         width: 385,
-        color: Colors.white,
+        // color: Colors.white,
         child: Column(
           children: [
             TextField(
