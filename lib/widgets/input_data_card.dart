@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:journal_app/data/data.dart';
 import 'package:journal_app/data/journal_entry_model.dart';
 
@@ -81,7 +82,7 @@ class _InputDataCardState extends State<InputDataCard> {
                       id: "${listOfEntry.length}",
                       title: _titleEditingController.text,
                       content: _contentEditingController.text,
-                      date: "15 Nov 2025",
+                      date: DateFormat('dd MMM y').format(DateTime.now()),
                     );
                     widget.onSave(entry);
                     // setState(() {
