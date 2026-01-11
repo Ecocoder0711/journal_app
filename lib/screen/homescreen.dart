@@ -18,7 +18,7 @@ class _HomepageState extends State<Homepage> {
       appBar: AppBar(
         title: const Text(
           "Welcome To Daily Thoughts",
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
       ),
