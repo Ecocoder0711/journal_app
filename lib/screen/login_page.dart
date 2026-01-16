@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:journal_app/provider/auth_provider.dart';
+import 'package:journal_app/screen/signup_screen.dart';
 import 'package:journal_app/widgets/responsive_widget.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -10,17 +12,48 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
+  final GlobalKey _formkey = GlobalKey<FormState>();
+  final TextEditingController _passwordEditingControler =
+      TextEditingController();
+  final TextEditingController _emailEditingControler = TextEditingController();
+  bool isloading = false;
+
+  void _islogin() async {
+    setState(() {
+      isloading = true;
+    });
+    try {
+      final authService = ref.read(authServiceProvider);
+      await authService.signIn(
+        _emailEditingControler.text.trim(),
+        _passwordEditingControler.text.trim(),
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toString())));
+      }
+    } finally {
+      setState(() {
+        isloading = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailEditingControler.dispose();
+    _passwordEditingControler.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final GlobalKey _formkey = GlobalKey<FormState>();
-    final TextEditingController passwordEditingControler =
-        TextEditingController();
-    final TextEditingController emailEditingControler = TextEditingController();
-
     return Scaffold(
       body: ResponsiveBuilder(
-        builder: (context, Constraints) {
-          final screenWidth = Constraints.maxWidth;
+        builder: (context, constraints) {
+          final screenWidth = constraints.maxWidth;
           final isdesktop = screenWidth > 900;
           final isTablet = screenWidth > 600 && screenWidth <= 900;
           final isMobile = screenWidth < 600;
@@ -90,7 +123,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                       // Email Field
                       TextFormField(
-                        controller: emailEditingControler,
+                        controller: _emailEditingControler,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: 'Email',
@@ -114,7 +147,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       const SizedBox(height: 20),
                       // Password Field
                       TextFormField(
-                        controller: passwordEditingControler,
+                        controller: _passwordEditingControler,
                         obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -136,34 +169,65 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                         ),
                         validator: (value) {
-                          if (value == null) return "Enter Email please.";
-                          if (!value.contains("@gamil.com"))
+                          if (value == null || value.isEmpty) {
+                            return "Enter Email please.";
+                          }
+                          if (!value.contains("@gamil.com")) {
                             return "Enter the correct email.";
+                          }
+                          if (value.length < 6) {
+                            return "Password must be at least 6 characters.";
+                          }
+                          return null;
                         },
                       ),
                       const SizedBox(height: 12),
 
-                      // Forgot Password
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Forgot Password?',
-                            style: TextStyle(
-                              color: Color(0xFF6C63FF),
-                              fontWeight: FontWeight.w500,
+                      Row(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Signupscreen(),
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                  color: Color(0xFF6C63FF),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(
+                                    color: Color(0xFF6C63FF),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 24),
-
                       // Login Button
                       SizedBox(
                         height: 52,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: isloading ? () {} : _islogin,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF6C63FF),
                             foregroundColor: Colors.white,
@@ -172,13 +236,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             ),
                             elevation: 0,
                           ),
-                          child: const Text(
-                            'Sign In',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          child: isloading
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  'Sign In',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                         ),
                       ),
                       const SizedBox(height: 24),
