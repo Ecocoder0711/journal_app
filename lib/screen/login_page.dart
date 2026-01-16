@@ -56,7 +56,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           final screenWidth = constraints.maxWidth;
           final isdesktop = screenWidth > 900;
           final isTablet = screenWidth > 600 && screenWidth <= 900;
-          final isMobile = screenWidth < 600;
+          // final isMobile = screenWidth < 600;
           double getHorizontalPadding() {
             if (isdesktop) return screenWidth * 0.3;
             if (isTablet) return screenWidth * 0.2;
