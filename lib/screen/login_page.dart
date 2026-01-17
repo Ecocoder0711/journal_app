@@ -17,6 +17,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       TextEditingController();
   final TextEditingController _emailEditingControler = TextEditingController();
   bool isloading = false;
+  bool isobscureText = true;
 
   void _islogin() async {
     setState(() {
@@ -80,7 +81,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Colors.black.withValues(alpha: 0.08),
                       blurRadius: 24,
                       offset: const Offset(0, 8),
                     ),
@@ -148,12 +149,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       // Password Field
                       TextFormField(
                         controller: _passwordEditingControler,
-                        obscureText: true,
+                        obscureText: isobscureText,
                         decoration: InputDecoration(
                           labelText: 'Password',
                           hintText: 'Enter your password',
                           prefixIcon: const Icon(Icons.lock_outline),
-                          suffixIcon: const Icon(Icons.visibility_off_outlined),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isobscureText
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isobscureText = !isobscureText;
+                              });
+                            },
+                          ),
                           filled: true,
                           fillColor: const Color(0xFFF7F7F9),
                           border: OutlineInputBorder(

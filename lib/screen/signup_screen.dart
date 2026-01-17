@@ -27,6 +27,7 @@ class _SignupscreenState extends ConsumerState<Signupscreen> {
     try {
       final authService = ref.read(authServiceProvider);
       await authService.singUp(
+        _usernameController.text.trim(),
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );

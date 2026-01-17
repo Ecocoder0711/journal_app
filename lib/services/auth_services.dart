@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:journal_app/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final Ref ref;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   AuthService(this.ref);
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<UserCredential?> signIn(String email, String password) async {
     try {
@@ -20,10 +23,15 @@ class AuthService {
     }
   }
 
-  Future<UserCredential?> singUp(String email, String password) async {
+  Future<UserCredential?> singUp(
+    String username,
+    String email,
+    String password,
+  ) async {
     try {
       final UserCredential usercreated = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
+      await _addUserToDatabase(username, email, password);
       await _saveUserState(true);
       return usercreated;
     } catch (e) {
@@ -37,6 +45,19 @@ class AuthService {
       await _saveUserState(false);
     } catch (e) {
       throw Exception("failed to SignOut: $e");
+    }
+  }
+
+  Future<void> _addUserToDatabase(
+    String username,
+    String emailid,
+    String password,
+  ) async {
+    try {
+      UserModel user = UserModel(username: username, emailid: emailid);
+      await _firestore.collection('user').add(user.toMap());
+    } catch (e) {
+      throw Exception("Failed to register: $e");
     }
   }
 
