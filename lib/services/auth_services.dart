@@ -22,8 +22,8 @@ class AuthService {
       );
       await _saveUserState(true);
       return result;
-    } catch (e) {
-      throw Exception("Failed to login: $e");
+    } on FirebaseAuthException catch (e) {
+      throw Exception("Failed to login: ${e.message}");
     }
   }
 

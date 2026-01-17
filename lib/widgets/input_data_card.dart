@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:journal_app/data/data.dart';
-import 'package:journal_app/data/journal_entry_model.dart';
+import 'package:journal_app/model/journal_entry_model.dart';
 
 class InputDataCard extends StatefulWidget {
   final Function(JournalEntry) onSave;

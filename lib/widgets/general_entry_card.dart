@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:journal_app/data/journal_entry_model.dart';
+import 'package:journal_app/model/journal_entry_model.dart';
 
 class JournalEntryCard extends StatelessWidget {
   final JournalEntry entry;
