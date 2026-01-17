@@ -1,26 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journal_app/data/data.dart';
+import 'package:journal_app/provider/auth_provider.dart';
+import 'package:journal_app/screen/login_page.dart';
 import 'package:journal_app/widgets/general_entry_card.dart';
 import 'package:journal_app/widgets/input_data_card.dart';
 
-class Homepage extends StatefulWidget {
+class Homepage extends ConsumerStatefulWidget {
   const Homepage({super.key});
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  ConsumerState<Homepage> createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _HomepageState extends ConsumerState<Homepage> {
+  void _logout() async {
+    final authService = ref.read(authServiceProvider);
+    await authService.signOut();
+    if (mounted) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => LoginPage()),
+        (route) => false,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
       appBar: AppBar(
         title: const Text(
-          "Welcome To Daily Thoughts",
+          "My Daily Thoughts",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
+        actions: [
+          IconButton(
+            onPressed: _logout,
+            icon: Icon(Icons.logout_outlined),
+            color: Colors.white,
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: listOfEntry.length,

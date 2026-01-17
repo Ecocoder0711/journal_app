@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journal_app/provider/auth_provider.dart';
+import 'package:journal_app/screen/login_page.dart';
 import 'package:journal_app/widgets/responsive_widget.dart';
 
 class Signupscreen extends ConsumerStatefulWidget {
@@ -26,11 +27,17 @@ class _SignupscreenState extends ConsumerState<Signupscreen> {
     });
     try {
       final authService = ref.read(authServiceProvider);
-      await authService.singUp(
+      await authService.signUp(
         _usernameController.text.trim(),
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );
+      if (mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LoginPage()),
+          (route) => false,
+        );
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(

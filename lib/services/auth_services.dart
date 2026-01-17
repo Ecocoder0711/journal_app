@@ -11,7 +11,11 @@ class AuthService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<UserCredential?> signIn(String email, String password) async {
+    final bool userExists = await _checkUserExists(email);
     try {
+      if (!userExists) {
+        throw Exception("User not found. Please Register First.");
+      }
       final UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -23,12 +27,16 @@ class AuthService {
     }
   }
 
-  Future<UserCredential?> singUp(
+  Future<UserCredential?> signUp(
     String username,
     String email,
     String password,
   ) async {
+    final bool userExists = await _checkUserExists(email);
     try {
+      if (userExists) {
+        throw Exception("User already exist. Please Login");
+      }
       final UserCredential usercreated = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
       await _addUserToDatabase(username, email, password);
@@ -55,9 +63,22 @@ class AuthService {
   ) async {
     try {
       UserModel user = UserModel(username: username, emailid: emailid);
-      await _firestore.collection('user').add(user.toMap());
+      await _firestore.collection('users').add(user.toMap());
     } catch (e) {
       throw Exception("Failed to register: $e");
+    }
+  }
+
+  Future<bool> _checkUserExists(String emailid) async {
+    try {
+      final QuerySnapshot<Map<String, dynamic>> result = await _firestore
+          .collection("users")
+          .where('emailid', isEqualTo: emailid)
+          .limit(1)
+          .get();
+      return result.docs.isNotEmpty;
+    } catch (e) {
+      throw Exception("Error in checking: $e");
     }
   }
 
@@ -66,8 +87,8 @@ class AuthService {
     await pref.setBool("isLoggedIn", isloggedIn);
   }
 
-  Future<bool> _getUserState() async {
+  Future<bool> getUserState() async {
     final pref = await SharedPreferences.getInstance();
-    return pref.getBool('isloggedIn') ?? false;
+    return pref.getBool('isLoggedIn') ?? false;
   }
 }

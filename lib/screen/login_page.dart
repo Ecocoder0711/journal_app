@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journal_app/provider/auth_provider.dart';
+import 'package:journal_app/screen/homescreen.dart';
 import 'package:journal_app/screen/signup_screen.dart';
 import 'package:journal_app/widgets/responsive_widget.dart';
 
@@ -29,6 +30,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         _emailEditingControler.text.trim(),
         _passwordEditingControler.text.trim(),
       );
+      if (mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => Homepage()),
+          (route) => false,
+        );
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(
