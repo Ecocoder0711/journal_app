@@ -7,6 +7,6 @@ class UserModel {
   }
 
   UserModel.fromMap(Map<String, dynamic> map)
-    : emailid = map['email'],
+    : emailid = map['emailid'],
       username = map['username'];
 }
