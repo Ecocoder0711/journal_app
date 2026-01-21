@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:journal_app/data/data.dart';
 import 'package:journal_app/provider/auth_provider.dart';
 import 'package:journal_app/provider/journal_entry_provider.dart';
 import 'package:journal_app/screen/login_page.dart';
@@ -46,8 +45,8 @@ class _HomepageState extends ConsumerState<Homepage> {
         ],
       ),
       body: entriesValue.when(
-        data: (entires) {
-          if (entires.isEmpty) {
+        data: (entries) {
+          if (entries.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -70,9 +69,9 @@ class _HomepageState extends ConsumerState<Homepage> {
             );
           }
           return ListView.builder(
-            itemCount: listOfEntry.length,
+            itemCount: entries.length,
             itemBuilder: (context, index) {
-              return JournalEntryCard(entry: listOfEntry[index]);
+              return JournalEntryCard(entry: entries[index]);
             },
           );
         },

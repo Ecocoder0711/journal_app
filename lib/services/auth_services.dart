@@ -62,8 +62,9 @@ class AuthService {
     String password,
   ) async {
     try {
+      final userId = _auth.currentUser!.uid;
       UserModel user = UserModel(username: username, emailid: emailid);
-      await _firestore.collection('users').add(user.toMap());
+      await _firestore.collection('users').doc(userId).set(user.toMap());
     } catch (e) {
       throw Exception("Failed to register: $e");
     }

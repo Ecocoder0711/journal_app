@@ -12,10 +12,10 @@ class JournalEntryServices {
 
   Future<void> addEntry(JournalEntry entry) async {
     try {
-      final String uid = _auth.currentUser!.uid;
+      final String userId = _auth.currentUser!.uid;
       await _firestore
           .collection('users')
-          .doc(uid)
+          .doc(userId)
           .collection('entries')
           .add(entry.toMap());
     } catch (e) {
@@ -26,10 +26,10 @@ class JournalEntryServices {
   // get Entries
   Stream<List<JournalEntry>> getEntries() {
     try {
-      final String uid = _auth.currentUser!.uid;
+      final String userId = _auth.currentUser!.uid;
       return _firestore
           .collection('users')
-          .doc(uid)
+          .doc(userId)
           .collection('entries')
           .snapshots()
           .map(
@@ -45,10 +45,10 @@ class JournalEntryServices {
   // delete Entries
   Future<void> deleteEntry(JournalEntry entry) async {
     try {
-      final String uid = _auth.currentUser!.uid;
+      final String userID = _auth.currentUser!.uid;
       return _firestore
           .collection('users')
-          .doc(uid)
+          .doc(userID)
           .collection('entries')
           .doc(entry.id)
           .delete();
